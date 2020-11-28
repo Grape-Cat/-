@@ -1,0 +1,112 @@
+package com.company;
+
+import java.util.Scanner;
+
+import static java.lang.System.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+  Scanner input= new Scanner(in);
+
+        out.println("探测间隙时间（建议为4min）:");
+  double t =input.nextDouble();
+  out.println("输入第一次探测的方位角:");
+  double k1 =input.nextDouble();
+        double degrees1 = 90-k1;
+        double radians1= Math.tan(degrees1*Math.PI/180);
+  out.println("输入第二次探测的方位角:");
+  double k2 =input.nextDouble();
+        double degrees2 = 90-k2;
+        double radians2= Math.tan(degrees2*Math.PI/180);
+  k2= radians2;
+  out.println("输入第三次探测的方位角:");
+  double k3 =input.nextDouble();
+        double degrees3 = 90-k3;
+        double radians3= Math.tan(degrees3*Math.PI/180);
+  out.println("输入第四次探测的方位角:");
+  double k4 =input.nextDouble();
+        double degrees4 = 90-k4;
+        double radians4= Math.tan(degrees4*Math.PI/180);
+  double Ix= 4/(radians2+1);
+  double Iy= 4*radians2/(radians2+1);
+  double Jx= 4/(radians1+1);
+  double Jy= 4*radians1/(radians1+1);
+  double IJ= Math.sqrt(Math.pow(Ix-Jx,2)+Math.pow(Iy-Jy,2));
+  double degrees5 = 135-degrees1;
+  double degrees6= 180-degrees5;
+  double L1= 2*IJ*Math.sin(degrees6*Math.PI/180);
+  double degrees7= 90-degrees1;
+  double L2= L1*(Math.pow(Math.sin(degrees7*Math.PI/180),-1));
+  double Mx= L2/(radians3-radians1);
+  double My= radians3*L2/(radians3-radians1);
+  double MI= Math.sqrt(Math.pow(Mx-Ix,2)+Math.pow(My-Iy,2));
+  double k5;
+  double b5;
+  k5= (My-Iy)/(Mx-Ix);
+  b5= My-(k5*Mx);
+  double degrees8 = 180+Math.toDegrees(Math.atan(k5));
+  double a;
+  double b;
+  a = MI * Math.sin((180-degrees8) * Math.PI / 180);
+  b = MI * Math.cos((180-degrees8) * Math.PI / 180);
+  double Ox;
+  double Oy;
+  Ox= Mx-b;
+  Oy= My+a;
+  double k6;
+  k6= Oy/Ox;
+  out.println("输入移动距离:");
+  double L3= input.nextDouble();
+  out.println("输入移动的方位角:");
+  double k7= input.nextDouble();
+  k7=k7-270;
+  double c;
+  double d;
+  c= L3*Math.sin((k7)*Math.PI/180);
+  d= L3*Math.cos((k7)*Math.PI/180);
+  double Rx;
+  double Ry;
+  Rx= -d;
+  Ry= c;
+  double b8;
+        b8 = Ry - (radians4 * Rx);
+  double Fx;
+  Fx= b8/(k6-radians4);
+  double Fy;
+  Fy= k6*b8/(k6-radians4);
+  double bt;
+  bt= Fy-(Fx*k5);
+  double Ex;
+  double Ey;
+  Ex= bt/(radians3-k5);
+  Ey= radians3*bt/(radians3-k5);
+  double L4= Math.sqrt(Math.pow(Fx-Ex,2)+Math.pow(Fy-Ey,2));
+  double Dx;
+  double Dy;
+  Dx= bt/(radians2-k5);
+  Dy= radians2*bt/(radians2-k5);
+  double L5= Math.sqrt(Math.pow(Ex-Dx,2)+Math.pow(Ey-Dy,2));
+  double e= Math.pow(L5-L4,2);
+  double f;
+  out.println("输入船头朝向(以地图上方为360/0度");
+  double degrees9= input.nextDouble();
+        if (e<4) {
+        f= (L5+L4)/2;
+        double v= f/(t/60);
+        System.out.println("速度: "+v);
+        double RF;
+        RF= Math.sqrt(Math.pow(Rx-Fx,2)+Math.pow(Ry-Fy,2));
+        System.out.println("距离: "+RF);
+
+        double degrees10= 90-degrees9;
+        double degrees11= Math.toDegrees(Math.atan(k5));
+        double degrees12= 180-degrees4-(180-degrees8);
+        System.out.println("AOB: "+degrees12);
+        double degrees13= 180-degrees10-(180-degrees8);
+        System.out.println("Bearing: "+degrees13);
+              } else {
+              System.out.println("Fuck off, we got the wrong input initially:(")    ;
+              }
+    }
+}
